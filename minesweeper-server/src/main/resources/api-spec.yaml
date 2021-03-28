@@ -1,0 +1,13 @@
+openapi: 3.0.0
+info:
+  title: Minesweeper
+  version: 1.0-SNAPSHOT
+
+paths:
+  /sessions:
+    post:
+      summary: creates a new session to start a new game
+      operationId: createSession
+      responses:
+        '201':
+          description: CREATED
