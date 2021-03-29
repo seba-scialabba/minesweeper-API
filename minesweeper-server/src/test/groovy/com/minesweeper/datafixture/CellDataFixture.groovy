@@ -3,7 +3,7 @@ package com.minesweeper.datafixture
 import lombok.Getter
 
 import com.minesweeper.domain.cell.Cell
-import com.minesweeper.domain.cell.CellVisibilityStatus
+import com.minesweeper.domain.cell.CellVisibleStatus
 
 @Getter
 abstract class CellDataFixture {
@@ -17,7 +17,7 @@ abstract class CellDataFixture {
 
 	CellDataFixture basic() {
 		neighbours([])
-		visibilityStatus(CellVisibilityStatus.HIDDEN)
+		visibleStatus(CellVisibleStatus.HIDDEN)
 		this
 	}
 
@@ -25,8 +25,8 @@ abstract class CellDataFixture {
 		cell.neighbours = neighbours
 		this
 	}
-	CellDataFixture visibilityStatus(CellVisibilityStatus visibilityStatus) {
-		cell.visibilityStatus = visibilityStatus
+	CellDataFixture visibleStatus(CellVisibleStatus visibleStatus) {
+		cell.visibleStatus = visibleStatus
 		this
 	}
 }
