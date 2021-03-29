@@ -18,7 +18,7 @@ import com.minesweeper.exception.InvalidCommandException;
 
 @Data
 public abstract class Cell implements ICell {
-	protected List<ICell> neighbours;
+	protected List<Cell> neighbours;
 	protected CellVisibleStatus visibleStatus = CellVisibleStatus.HIDDEN;
 
 	@Override
@@ -40,6 +40,15 @@ public abstract class Cell implements ICell {
 	@Override
 	public void removeQuestion() {
 		flagCell(Sets.immutableEnumSet(QUESTION), HIDDEN);
+	}
+
+	/**
+	 * By default we do not reveal a cell while exploring starting from an empty cell
+	 *
+	 * @return if the current cell must be revealed or not
+	 */
+	protected boolean mustRevealWhileExploring() {
+		return false;
 	}
 
 	private void flagCell(Set<CellVisibleStatus> allowedStatusesSet, CellVisibleStatus newStatus) {
