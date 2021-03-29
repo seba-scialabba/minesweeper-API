@@ -48,6 +48,14 @@ public abstract class Cell {
 		flagCell(SUPPORTS_MARKING_QUESTION, QUESTION);
 	}
 
+	/**
+	 * Remove the question mark
+	 * Only allowed if current visibility is QUESTION
+	 */
+	public void removeQuestion() {
+		flagCell(Sets.immutableEnumSet(QUESTION), HIDDEN);
+	}
+
 	private void flagCell(Set<CellVisibleStatus> allowedStatusesSet, CellVisibleStatus newStatus) {
 		if (!allowedStatusesSet.contains(visibleStatus)) {
 			String allowedStatuses = allowedStatusesSet.stream().map(CellVisibleStatus::name).collect(Collectors.joining(", "));

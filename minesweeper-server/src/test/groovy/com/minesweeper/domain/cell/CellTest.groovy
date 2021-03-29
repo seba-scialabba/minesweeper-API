@@ -102,4 +102,33 @@ class CellTest extends Specification {
 		CellVisibleStatus.HIDDEN	| _
 		CellVisibleStatus.RED_FLAG	| _
 	}
+
+	def "will throw exception if cell can't remove question mark"() {
+		given:
+		def cell = new EmptyCellDataFixture().basic().visibleStatus(status).cell
+
+		when:
+		cell.removeQuestion()
+
+		then:
+		def exception = thrown(InvalidCommandException)
+		exception.message == "Interaction only supported for cell statuses: QUESTION"
+
+		where:
+		status						| _
+		CellVisibleStatus.VISIBLE	| _
+		CellVisibleStatus.RED_FLAG	| _
+		CellVisibleStatus.HIDDEN	| _
+	}
+
+	def "will update cell when question is removed"() {
+		given:
+		def cell = new EmptyCellDataFixture().basic().visibleStatus(CellVisibleStatus.QUESTION).cell
+
+		when:
+		cell.removeQuestion()
+
+		then:
+		cell.visibleStatus == CellVisibleStatus.HIDDEN
+	}
 }
