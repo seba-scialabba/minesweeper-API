@@ -10,5 +10,5 @@ public enum CellVisibilityStatus {
 	MARKED_MINE,
 	MARKED_QUESTION;
 
-	public static final Set<CellVisibilityStatus> SUPPORTS_MARKING_AS_MINE = ImmutableSet.of(HIDDEN, MARKED_QUESTION);
+	public static final Set<CellVisibilityStatus> SUPPORTS_MARKING_RED_FLAG = ImmutableSet.of(HIDDEN, MARKED_QUESTION);
 }
