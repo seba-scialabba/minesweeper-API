@@ -11,4 +11,5 @@ public enum CellVisibleStatus {
 	QUESTION;
 
 	public static final Set<CellVisibleStatus> SUPPORTS_MARKING_RED_FLAG = ImmutableSet.of(HIDDEN, QUESTION);
+	public static final Set<CellVisibleStatus> SUPPORTS_MARKING_QUESTION = ImmutableSet.of(HIDDEN, RED_FLAG);
 }

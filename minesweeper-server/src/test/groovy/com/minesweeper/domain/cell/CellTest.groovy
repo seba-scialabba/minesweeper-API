@@ -18,7 +18,7 @@ class CellTest extends Specification {
 
 		then:
 		def exception = thrown(InvalidCommandException)
-		exception.message == "Marking with red flag only supported for cell statuses: HIDDEN, QUESTION"
+		exception.message == "Interaction only supported for cell statuses: HIDDEN, QUESTION"
 
 		where:
 		status                     | _
@@ -50,7 +50,7 @@ class CellTest extends Specification {
 
 		then:
 		def exception = thrown(InvalidCommandException)
-		exception.message == "Removing red flag only supported for cell status RED_FLAG"
+		exception.message == "Interaction only supported for cell statuses: RED_FLAG"
 
 		where:
 		status						| _
@@ -68,5 +68,38 @@ class CellTest extends Specification {
 
 		then:
 		cell.visibleStatus == CellVisibleStatus.HIDDEN
+	}
+
+	def "will throw exception if cell can't be marked with question"() {
+		given:
+		def cell = new EmptyCellDataFixture().basic().visibleStatus(status).cell
+
+		when:
+		cell.markQuestion()
+
+		then:
+		def exception = thrown(InvalidCommandException)
+		exception.message == "Interaction only supported for cell statuses: HIDDEN, RED_FLAG"
+
+		where:
+		status                     | _
+		CellVisibleStatus.VISIBLE  | _
+		CellVisibleStatus.QUESTION | _
+	}
+
+	def "will update cell when marked with question"() {
+		given:
+		def cell = new EmptyCellDataFixture().basic().visibleStatus(status).cell
+
+		when:
+		cell.markQuestion()
+
+		then:
+		cell.visibleStatus == CellVisibleStatus.QUESTION
+
+		where:
+		status						| _
+		CellVisibleStatus.HIDDEN	| _
+		CellVisibleStatus.RED_FLAG	| _
 	}
 }
