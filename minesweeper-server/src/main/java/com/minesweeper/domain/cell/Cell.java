@@ -42,6 +42,11 @@ public abstract class Cell implements ICell {
 		flagCell(Sets.immutableEnumSet(QUESTION), HIDDEN);
 	}
 
+	@Override
+	public void increaseMineProximityCount() {
+		// Do nothing by default
+	}
+
 	/**
 	 * By default we do not reveal a cell while exploring starting from an empty cell
 	 *

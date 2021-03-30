@@ -39,4 +39,9 @@ public interface ICell {
 	 * @return whether the mark corresponds to a mine cell or not
 	 */
 	InteractionResult explore();
+
+	/**
+	 * Increases the count of nearby mines
+	 */
+	void increaseMineProximityCount();
 }

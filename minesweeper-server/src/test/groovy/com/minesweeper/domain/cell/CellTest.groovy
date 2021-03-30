@@ -2,7 +2,7 @@ package com.minesweeper.domain.cell
 
 import com.minesweeper.datafixture.EmptyCellDataFixture
 import com.minesweeper.datafixture.MineCellDataFixture
-import com.minesweeper.datafixture.MineNeighbourCellDataFixture
+import com.minesweeper.datafixture.AdjacentToMineCellDataFixture
 import com.minesweeper.domain.InteractionResult
 import com.minesweeper.exception.InvalidCommandException
 import spock.lang.Specification
@@ -35,10 +35,10 @@ class CellTest extends Specification {
 		result == expectedResult
 
 		where:
-		cell                                            | expectedResult
-		new EmptyCellDataFixture().basic().cell         | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
-		new MineNeighbourCellDataFixture().basic().cell | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
-		new MineCellDataFixture().basic().cell          | InteractionResult.RED_FLAG_ADDED_CORRECTLY
+		cell                                             | expectedResult
+		new EmptyCellDataFixture().basic().cell          | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
+		new AdjacentToMineCellDataFixture().basic().cell | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
+		new MineCellDataFixture().basic().cell           | InteractionResult.RED_FLAG_ADDED_CORRECTLY
 	}
 
 	def "will throw exception if cell can't remove red flag"() {
