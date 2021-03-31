@@ -1,7 +1,7 @@
 package com.minesweeper.domain.cell
 
 
-import com.minesweeper.datafixture.EmptyCellDataFixture
+import com.minesweeper.datafixture.domain.cell.EmptyCellDataFixture
 import com.minesweeper.exception.InvalidCommandException
 import spock.lang.Specification
 

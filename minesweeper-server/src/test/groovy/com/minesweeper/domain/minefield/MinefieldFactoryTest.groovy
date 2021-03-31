@@ -2,7 +2,7 @@ package com.minesweeper.domain.minefield
 
 import org.springframework.beans.factory.BeanFactory
 
-import com.minesweeper.datafixture.MinefieldConfigDataFixture
+import com.minesweeper.datafixture.domain.minefield.MinefieldConfigDataFixture
 import spock.lang.Specification
 
 class MinefieldFactoryTest extends Specification {

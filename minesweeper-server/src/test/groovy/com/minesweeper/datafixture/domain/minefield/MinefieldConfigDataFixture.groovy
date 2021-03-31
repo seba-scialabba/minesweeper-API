@@ -1,4 +1,4 @@
-package com.minesweeper.datafixture
+package com.minesweeper.datafixture.domain.minefield
 
 import lombok.Getter
 

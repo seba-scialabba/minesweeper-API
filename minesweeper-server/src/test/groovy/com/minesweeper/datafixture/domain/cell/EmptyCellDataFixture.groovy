@@ -1,4 +1,4 @@
-package com.minesweeper.datafixture
+package com.minesweeper.datafixture.domain.cell
 
 import com.minesweeper.domain.cell.Cell
 import com.minesweeper.domain.cell.CellVisibleStatus
