@@ -1,13 +1,11 @@
 package com.minesweeper.domain.cell
 
+
 import com.minesweeper.datafixture.EmptyCellDataFixture
-import com.minesweeper.datafixture.MineCellDataFixture
-import com.minesweeper.datafixture.AdjacentToMineCellDataFixture
-import com.minesweeper.domain.InteractionResult
 import com.minesweeper.exception.InvalidCommandException
 import spock.lang.Specification
 
-class CellTest extends Specification {
+abstract class CellTest extends Specification {
 
 	def "will throw exception if cell can't be marked with red flag"() {
 		given:
@@ -24,21 +22,6 @@ class CellTest extends Specification {
 		status                     | _
 		CellVisibleStatus.VISIBLE  | _
 		CellVisibleStatus.RED_FLAG | _
-	}
-
-	def "will update cell when marked with red flag"() {
-		when:
-		def result = cell.markRedFlag()
-
-		then:
-		cell.visibleStatus == CellVisibleStatus.RED_FLAG
-		result == expectedResult
-
-		where:
-		cell                                             | expectedResult
-		new EmptyCellDataFixture().basic().cell          | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
-		new AdjacentToMineCellDataFixture().basic().cell | InteractionResult.RED_FLAG_ADDED_INCORRECTLY
-		new MineCellDataFixture().basic().cell           | InteractionResult.RED_FLAG_ADDED_CORRECTLY
 	}
 
 	def "will throw exception if cell can't remove red flag"() {
@@ -130,19 +113,5 @@ class CellTest extends Specification {
 
 		then:
 		cell.visibleStatus == CellVisibleStatus.HIDDEN
-	}
-
-	def "will return if a cell contains a mine depending on the class behaviour"() {
-		when:
-		def result = cell.containsMine()
-
-		then:
-		result == expectedResult
-
-		where:
-		cell | expectedResult
-		new EmptyCellDataFixture().basic().cell | false
-		new AdjacentToMineCellDataFixture().basic().cell | false
-		new MineCellDataFixture().basic().cell | true
 	}
 }

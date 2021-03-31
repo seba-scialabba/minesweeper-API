@@ -6,8 +6,8 @@ import com.minesweeper.domain.cell.Cell
 import com.minesweeper.domain.cell.CellVisibleStatus
 
 @Getter
-abstract class CellDataFixture {
-	Cell cell
+abstract class CellDataFixture<C extends Cell> {
+	C cell
 
 	CellDataFixture() {
 		cell = createCell()
