@@ -11,12 +11,32 @@ public class EmptyCell extends Cell {
 		return InteractionResult.CELL_REVEALED;
 	}
 
-	protected boolean mustRevealWhileExploring() {
+	@Override
+	public boolean containsMine() {
+		return false;
+	}
+
+	@Override
+	protected boolean mustBeRevealedWhileExploring() {
 		return true;
 	}
 
+	@Override
+	protected Cell increaseAdjacentMineCount(Cell neighbourCell) {
+		// Does not affect adjacent mines count
+		return neighbourCell;
+	}
+
+	@Override
+	protected Cell autoIncreaseMineCount() {
+		Cell newCell = new AdjacentToMineCell();
+		newCell.neighbours = neighbours;
+		newCell.autoIncreaseMineCount();
+		return newCell;
+	}
+
 	private void revealWhileExploring(Cell cell) {
-		if (!cell.mustRevealWhileExploring()) {
+		if (!cell.mustBeRevealedWhileExploring()) {
 			return;
 		}
 		cell.setVisibleStatus(CellVisibleStatus.VISIBLE);

@@ -17,44 +17,44 @@ import com.minesweeper.domain.InteractionResult;
 import com.minesweeper.exception.InvalidCommandException;
 
 @Data
-public abstract class Cell implements ICell {
+public abstract class Cell {
 	protected List<Cell> neighbours;
 	protected CellVisibleStatus visibleStatus = CellVisibleStatus.HIDDEN;
 
-	@Override
+	public abstract InteractionResult explore();
+
 	public InteractionResult markRedFlag() {
 		flagCell(SUPPORTS_MARKING_RED_FLAG, RED_FLAG);
 		return InteractionResult.RED_FLAG_ADDED_INCORRECTLY;
 	}
 
-	@Override
 	public void removeRedFlag() {
 		flagCell(Sets.immutableEnumSet(RED_FLAG), HIDDEN);
 	}
 
-	@Override
 	public void markQuestion() {
 		flagCell(SUPPORTS_MARKING_QUESTION, QUESTION);
 	}
 
-	@Override
 	public void removeQuestion() {
 		flagCell(Sets.immutableEnumSet(QUESTION), HIDDEN);
 	}
 
-	@Override
-	public void increaseMineProximityCount() {
-		// Do nothing by default
+	public Cell replaceWith(Cell newCell) {
+		for (int i = 0; i < neighbours.size(); i++) {
+			neighbours.add(i, newCell.increaseAdjacentMineCount(neighbours.get(i)));
+		}
+		newCell.setNeighbours(neighbours);
+		return newCell;
 	}
 
-	/**
-	 * By default we do not reveal a cell while exploring starting from an empty cell
-	 *
-	 * @return if the current cell must be revealed or not
-	 */
-	protected boolean mustRevealWhileExploring() {
-		return false;
-	}
+	public abstract boolean containsMine();
+
+	protected abstract boolean mustBeRevealedWhileExploring();
+
+	protected abstract Cell increaseAdjacentMineCount(Cell neighbourCell);
+
+	protected abstract Cell autoIncreaseMineCount();
 
 	private void flagCell(Set<CellVisibleStatus> allowedStatusesSet, CellVisibleStatus newStatus) {
 		if (!allowedStatusesSet.contains(visibleStatus)) {

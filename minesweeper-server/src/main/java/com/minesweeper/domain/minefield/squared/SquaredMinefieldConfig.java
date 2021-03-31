@@ -15,6 +15,6 @@ import com.minesweeper.domain.minefield.MinefieldConfig;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SquaredMinefieldConfig extends MinefieldConfig {
-	private long width;
-	private long height;
+	private int width;
+	private int height;
 }

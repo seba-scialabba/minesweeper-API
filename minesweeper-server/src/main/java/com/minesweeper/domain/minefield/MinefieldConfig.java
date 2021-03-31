@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public abstract class MinefieldConfig {
 	private MinefieldType type;
-	private long minesCount;
+	private int minesCount;
 }

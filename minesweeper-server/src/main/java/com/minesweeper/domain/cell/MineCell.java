@@ -14,4 +14,25 @@ public class MineCell extends Cell {
 		super.markRedFlag();
 		return InteractionResult.RED_FLAG_ADDED_CORRECTLY;
 	}
+
+	@Override
+	public boolean containsMine() {
+		return true;
+	}
+
+	@Override
+	protected boolean mustBeRevealedWhileExploring() {
+		return false;
+	}
+
+	@Override
+	protected Cell increaseAdjacentMineCount(Cell neighbourCell) {
+		return neighbourCell.autoIncreaseMineCount();
+	}
+
+	@Override
+	protected Cell autoIncreaseMineCount() {
+		// Does not carry an adjacent mine count
+		return this;
+	}
 }
