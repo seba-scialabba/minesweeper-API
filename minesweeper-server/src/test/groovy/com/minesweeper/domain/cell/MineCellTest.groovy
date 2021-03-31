@@ -68,4 +68,16 @@ class MineCellTest extends CellTest {
 				[mineCell, MineCell, null]
 		]
 	}
+
+	def "will not be affected by increasing mine count"() {
+		given:
+		def cell = new MineCellDataFixture().basic().cell
+
+		when:
+		def result = cell.autoIncreaseMineCount()
+
+		then:
+		result in MineCell
+		result == cell
+	}
 }

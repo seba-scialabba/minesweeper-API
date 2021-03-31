@@ -57,4 +57,16 @@ class AdjacentToMineCellTest extends CellTest {
 		new MineCellDataFixture().basic().cell				| _
 		new AdjacentToMineCellDataFixture().basic().cell	| _
 	}
+
+	def "will increase self mine count"() {
+		given:
+		def cell = new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(1).cell
+
+		when:
+		def result = cell.autoIncreaseMineCount()
+
+		then:
+		result in AdjacentToMineCell
+		(result as AdjacentToMineCell).adjacentMinesCount == 2
+	}
 }

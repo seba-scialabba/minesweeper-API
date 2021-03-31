@@ -57,4 +57,16 @@ class EmptyCellTest extends CellTest {
 		new MineCellDataFixture().basic().cell				| _
 		new AdjacentToMineCellDataFixture().basic().cell	| _
 	}
+
+	def "will be converted to AdjacentToMineCell when increasing mine count"() {
+		given:
+		def cell = new EmptyCellDataFixture().basic().cell
+
+		when:
+		def result = cell.autoIncreaseMineCount()
+
+		then:
+		result in AdjacentToMineCell
+		(result as AdjacentToMineCell).adjacentMinesCount == 1
+	}
 }
