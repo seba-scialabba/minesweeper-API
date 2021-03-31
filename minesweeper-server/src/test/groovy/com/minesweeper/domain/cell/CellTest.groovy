@@ -131,4 +131,18 @@ class CellTest extends Specification {
 		then:
 		cell.visibleStatus == CellVisibleStatus.HIDDEN
 	}
+
+	def "will return if a cell contains a mine depending on the class behaviour"() {
+		when:
+		def result = cell.containsMine()
+
+		then:
+		result == expectedResult
+
+		where:
+		cell | expectedResult
+		new EmptyCellDataFixture().basic().cell | false
+		new AdjacentToMineCellDataFixture().basic().cell | false
+		new MineCellDataFixture().basic().cell | true
+	}
 }
