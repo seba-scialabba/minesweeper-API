@@ -1,6 +1,6 @@
 package com.minesweeper.domain.cell;
 
-import java.util.Objects;
+import java.util.stream.IntStream;
 
 import lombok.NoArgsConstructor;
 
@@ -47,8 +47,13 @@ public class EmptyCell extends Cell {
 			return;
 		}
 		cell.setVisibleStatus(CellVisibleStatus.VISIBLE);
-		neighbours.parallelStream()
-			.filter(Objects::nonNull)
-			.forEach(this::revealWhileExploring);
+		IntStream.range(0, neighbours.length).parallel()
+			.filter(index -> neighbours[index] != null)
+			.forEach(index -> revealWhileExploring(neighbours[index]));
+	}
+
+	@Override
+	public String toString() {
+		return "0";
 	}
 }

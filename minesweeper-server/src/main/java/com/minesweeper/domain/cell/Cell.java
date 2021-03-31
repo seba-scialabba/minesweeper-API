@@ -6,9 +6,9 @@ import static com.minesweeper.domain.cell.CellVisibleStatus.RED_FLAG;
 import static com.minesweeper.domain.cell.CellVisibleStatus.SUPPORTS_MARKING_QUESTION;
 import static com.minesweeper.domain.cell.CellVisibleStatus.SUPPORTS_MARKING_RED_FLAG;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import com.minesweeper.exception.InvalidCommandException;
 @Data
 @NoArgsConstructor
 public abstract class Cell {
-	protected List<Cell> neighbours;
+	protected Cell[] neighbours = new Cell[8];
 	protected CellVisibleStatus visibleStatus = CellVisibleStatus.HIDDEN;
 
 	public Cell(Cell cell) {
@@ -48,11 +48,15 @@ public abstract class Cell {
 	}
 
 	public Cell replaceWith(Cell newCell) {
-		for (int i = 0; i < neighbours.size(); i++) {
-			neighbours.set(i, newCell.increaseAdjacentMineCount(neighbours.get(i)));
-		}
-		newCell.setNeighbours(neighbours);
+		newCell.neighbours = neighbours;
+		IntStream.range(0, neighbours.length).parallel()
+			.filter(index -> neighbours[index] != null)
+			.forEach(index -> neighbours[index] = newCell.increaseAdjacentMineCount(neighbours[index]));
 		return newCell;
+	}
+
+	public void setNeighbour(int index, Cell neighbour) {
+		neighbours[index] = neighbour;
 	}
 
 	public abstract boolean containsMine();

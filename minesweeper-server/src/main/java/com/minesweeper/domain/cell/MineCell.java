@@ -43,4 +43,9 @@ public class MineCell extends Cell {
 		// Does not carry an adjacent mine count
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "M";
+	}
 }

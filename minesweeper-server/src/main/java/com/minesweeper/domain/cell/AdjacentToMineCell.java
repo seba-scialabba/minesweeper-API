@@ -41,4 +41,9 @@ public class AdjacentToMineCell extends Cell {
 		adjacentMinesCount++;
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(adjacentMinesCount);
+	}
 }
