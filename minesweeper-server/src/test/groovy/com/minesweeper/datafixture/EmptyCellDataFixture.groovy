@@ -1,6 +1,7 @@
 package com.minesweeper.datafixture
 
 import com.minesweeper.domain.cell.Cell
+import com.minesweeper.domain.cell.CellVisibleStatus
 import com.minesweeper.domain.cell.EmptyCell
 
 class EmptyCellDataFixture extends CellDataFixture<EmptyCell> {
@@ -11,20 +12,25 @@ class EmptyCellDataFixture extends CellDataFixture<EmptyCell> {
 
 	EmptyCellDataFixture basic() {
 		super.basic()
+		this
+	}
+
+	EmptyCellDataFixture basicWithNeighbours() {
+		basic()
 		/*
 		1	0	0
 		1	0	0
 		1	0	0
 		 */
 		neighbours([
-				new EmptyCellDataFixture().cell,			// Upper
-				new EmptyCellDataFixture().cell,			// Upper-right
-				new EmptyCellDataFixture().cell,			// Right
-				new EmptyCellDataFixture().cell,			// Lower-right
-				new AdjacentToMineCellDataFixture().cell,	// Lower
-				new AdjacentToMineCellDataFixture().cell,	// Lower-left
-				new AdjacentToMineCellDataFixture().cell,	// Left
-				new AdjacentToMineCellDataFixture().cell	// Upper-left
+				new EmptyCellDataFixture().basic().visibleStatus(CellVisibleStatus.VISIBLE).cell,
+				new EmptyCellDataFixture().basic().cell,
+				new EmptyCellDataFixture().basic().cell,
+				new EmptyCellDataFixture().basic().cell,
+				new EmptyCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell
 		])
 		this
 	}

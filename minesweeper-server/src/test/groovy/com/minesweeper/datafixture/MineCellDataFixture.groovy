@@ -1,6 +1,7 @@
 package com.minesweeper.datafixture
 
 import com.minesweeper.domain.cell.Cell
+import com.minesweeper.domain.cell.CellVisibleStatus
 import com.minesweeper.domain.cell.MineCell
 
 class MineCellDataFixture extends CellDataFixture<MineCell> {
@@ -11,20 +12,25 @@ class MineCellDataFixture extends CellDataFixture<MineCell> {
 
 	MineCellDataFixture basic() {
 		super.basic()
+		this
+	}
+
+	MineCellDataFixture basicWithNeighbours() {
+		basic()
 		/*
 		2	2	1
 		M	M	1
 		2	2	1
 		 */
 		neighbours([
-				new AdjacentToMineCellDataFixture().adjacentMinesCount(2).cell,	// Upper
-				new AdjacentToMineCellDataFixture().cell,						// Upper-right
-				new AdjacentToMineCellDataFixture().cell,						// Right
-				new AdjacentToMineCellDataFixture().cell,						// Lower-right
-				new AdjacentToMineCellDataFixture().adjacentMinesCount(2).cell,	// Lower
-				new AdjacentToMineCellDataFixture().adjacentMinesCount(2).cell,	// Lower-left
-				new MineCellDataFixture().cell,									// Left
-				new AdjacentToMineCellDataFixture().adjacentMinesCount(2).cell	// Upper-left
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).visibleStatus(CellVisibleStatus.VISIBLE).cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new MineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell
 		])
 		this
 	}

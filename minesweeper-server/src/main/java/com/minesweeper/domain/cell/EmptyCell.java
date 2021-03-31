@@ -2,9 +2,17 @@ package com.minesweeper.domain.cell;
 
 import java.util.Objects;
 
+import lombok.NoArgsConstructor;
+
 import com.minesweeper.domain.InteractionResult;
 
+@NoArgsConstructor
 public class EmptyCell extends Cell {
+
+	public EmptyCell(Cell cell) {
+		super(cell);
+	}
+
 	@Override
 	public InteractionResult explore() {
 		revealWhileExploring(this);
@@ -29,8 +37,7 @@ public class EmptyCell extends Cell {
 
 	@Override
 	protected Cell autoIncreaseMineCount() {
-		Cell newCell = new AdjacentToMineCell();
-		newCell.neighbours = neighbours;
+		Cell newCell = new AdjacentToMineCell(this);
 		newCell.autoIncreaseMineCount();
 		return newCell;
 	}

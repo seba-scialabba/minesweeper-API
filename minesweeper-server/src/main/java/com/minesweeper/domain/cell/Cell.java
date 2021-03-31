@@ -11,15 +11,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import com.google.common.collect.Sets;
 import com.minesweeper.domain.InteractionResult;
 import com.minesweeper.exception.InvalidCommandException;
 
 @Data
+@NoArgsConstructor
 public abstract class Cell {
 	protected List<Cell> neighbours;
 	protected CellVisibleStatus visibleStatus = CellVisibleStatus.HIDDEN;
+
+	public Cell(Cell cell) {
+		neighbours = cell.neighbours;
+		visibleStatus = cell.visibleStatus;
+	}
 
 	public abstract InteractionResult explore();
 
@@ -42,7 +49,7 @@ public abstract class Cell {
 
 	public Cell replaceWith(Cell newCell) {
 		for (int i = 0; i < neighbours.size(); i++) {
-			neighbours.add(i, newCell.increaseAdjacentMineCount(neighbours.get(i)));
+			neighbours.set(i, newCell.increaseAdjacentMineCount(neighbours.get(i)));
 		}
 		newCell.setNeighbours(neighbours);
 		return newCell;

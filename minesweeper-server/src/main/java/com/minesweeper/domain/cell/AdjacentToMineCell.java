@@ -1,12 +1,18 @@
 package com.minesweeper.domain.cell;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import com.minesweeper.domain.InteractionResult;
 
 @Getter
+@NoArgsConstructor
 public class AdjacentToMineCell extends Cell {
 	private int adjacentMinesCount = 0;
+
+	public AdjacentToMineCell(Cell cell) {
+		super(cell);
+	}
 
 	@Override
 	public InteractionResult explore() {

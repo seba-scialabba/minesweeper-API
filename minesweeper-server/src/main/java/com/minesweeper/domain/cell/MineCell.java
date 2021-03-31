@@ -1,8 +1,16 @@
 package com.minesweeper.domain.cell;
 
+import lombok.NoArgsConstructor;
+
 import com.minesweeper.domain.InteractionResult;
 
+@NoArgsConstructor
 public class MineCell extends Cell {
+
+	public MineCell(Cell cell) {
+		super(cell);
+	}
+
 	@Override
 	public InteractionResult explore() {
 		visibleStatus = CellVisibleStatus.VISIBLE;

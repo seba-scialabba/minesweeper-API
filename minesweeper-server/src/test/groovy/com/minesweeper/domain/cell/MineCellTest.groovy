@@ -80,4 +80,60 @@ class MineCellTest extends CellTest {
 		result in MineCell
 		result == cell
 	}
+
+	def "will replace cell with a mine"(Cell originalCell, List<Cell> expectedNeighbours) {
+		given:
+		def mineCell = new MineCellDataFixture().basicWithNeighbours().cell
+
+		when:
+		def result = originalCell.replaceWith(mineCell)
+
+		then:
+		result in MineCell
+		result.neighbours == expectedNeighbours
+
+		where:
+		[originalCell, expectedNeighbours] << replaceWithDataPipe()
+	}
+
+	private replaceWithDataPipe() {
+		def originalEmptyCell = new EmptyCellDataFixture().basicWithNeighbours().cell
+		def originalAdjacentToMineCell = new AdjacentToMineCellDataFixture().basicWithNeighbours().cell
+
+		def expectedNeighboursFromEmptyCell = [
+				new AdjacentToMineCellDataFixture().basic().visibleStatus(CellVisibleStatus.VISIBLE).cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell
+		]
+		def expectedNeighboursFromAdjacentToMineCell = [
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).visibleStatus(CellVisibleStatus.VISIBLE).cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell,
+				new MineCellDataFixture().basic().cell,
+				new AdjacentToMineCellDataFixture().basic().adjacentMinesCount(2).cell
+		]
+		[
+				/*
+				1	0	0		2	1	1
+				1	0	0	->	2	M	1
+				1	0	0		2	1	1
+				 */
+		        [originalEmptyCell, expectedNeighboursFromEmptyCell],
+
+				/*
+				1	1	0		2	2	1
+				M	1	0	->	M	M	1
+				1	1	0		2	2	1
+		 		*/
+				[originalAdjacentToMineCell, expectedNeighboursFromAdjacentToMineCell]
+		]
+	}
 }
