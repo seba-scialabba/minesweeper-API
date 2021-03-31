@@ -3,21 +3,25 @@ package com.minesweeper.datafixture.domain.minefield
 import lombok.Getter
 
 import com.minesweeper.domain.minefield.MinefieldConfig
-import com.minesweeper.domain.minefield.MinefieldType
-import com.minesweeper.domain.minefield.squared.SquaredMinefieldConfig
 
 @Getter
 class MinefieldConfigDataFixture {
 	MinefieldConfig minefieldConfig
 
-	MinefieldConfigDataFixture basicSquared() {
-		minefieldConfig = new SquaredMinefieldConfig()
-		type(MinefieldType.SQUARED)
+	MinefieldConfigDataFixture basic() {
+		minefieldConfig = new MinefieldConfig()
+		height(5)
+		width(10)
 		minesCount(10)
 	}
 
-	MinefieldConfigDataFixture type(MinefieldType type) {
-		minefieldConfig.type = type
+	MinefieldConfigDataFixture height(int height) {
+		minefieldConfig.height = height
+		this
+	}
+
+	MinefieldConfigDataFixture width(int width) {
+		minefieldConfig.width = width
 		this
 	}
 
