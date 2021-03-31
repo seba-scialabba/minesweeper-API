@@ -12,6 +12,21 @@ class AdjacentToMineCellDataFixture extends CellDataFixture<AdjacentToMineCell> 
 
 	AdjacentToMineCellDataFixture basic() {
 		super.basic()
+		/*
+		1	1	0
+		M	1	0
+		1	1	0
+		 */
+		neighbours([
+		        new AdjacentToMineCellDataFixture().cell,	// Upper
+				new EmptyCellDataFixture().cell,			// Upper-right
+				new EmptyCellDataFixture().cell,			// Right
+				new EmptyCellDataFixture().cell,			// Lower-right
+				new AdjacentToMineCellDataFixture().cell,	// Lower
+				new AdjacentToMineCellDataFixture().cell,	// Lower-left
+				new MineCellDataFixture().cell,				// Left
+				new AdjacentToMineCellDataFixture().cell	// Upper-left
+		])
 		adjacentMinesCount(1)
 		this
 	}
