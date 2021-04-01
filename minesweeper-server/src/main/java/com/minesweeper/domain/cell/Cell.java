@@ -8,27 +8,27 @@ import static com.minesweeper.domain.cell.CellVisibleStatus.SUPPORTS_MARKING_RED
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.google.common.collect.Sets;
 import com.minesweeper.domain.InteractionResult;
+import com.minesweeper.domain.minefield.Minefield;
 import com.minesweeper.exception.InvalidCommandException;
 
 @Data
 @NoArgsConstructor
 public abstract class Cell {
-	protected Cell[] neighbours = new Cell[8];
+	protected Position position;
 	protected CellVisibleStatus visibleStatus = CellVisibleStatus.HIDDEN;
 
 	public Cell(Cell cell) {
-		neighbours = cell.neighbours;
+		position = cell.position;
 		visibleStatus = cell.visibleStatus;
 	}
 
-	public abstract InteractionResult explore();
+	public abstract InteractionResult explore(Minefield minefield);
 
 	public InteractionResult markRedFlag() {
 		flagCell(SUPPORTS_MARKING_RED_FLAG, RED_FLAG);
@@ -47,25 +47,15 @@ public abstract class Cell {
 		flagCell(Sets.immutableEnumSet(QUESTION), HIDDEN);
 	}
 
-	public Cell replaceWith(Cell newCell) {
-		newCell.neighbours = neighbours;
-		IntStream.range(0, neighbours.length).parallel()
-			.filter(index -> neighbours[index] != null)
-			.forEach(index -> neighbours[index] = newCell.increaseAdjacentMineCount(neighbours[index]));
-		return newCell;
-	}
-
-	public void setNeighbour(int index, Cell neighbour) {
-		neighbours[index] = neighbour;
-	}
-
 	public abstract boolean containsMine();
+
+	public abstract Cell affectNeighbourCell(Cell neighbourCell);
+
+	protected abstract Cell incrementMineCount();
 
 	protected abstract boolean mustBeRevealedWhileExploring();
 
-	protected abstract Cell increaseAdjacentMineCount(Cell neighbourCell);
-
-	protected abstract Cell autoIncreaseMineCount();
+	//protected abstract Cell increaseAdjacentMineCount(Cell neighbourCell);
 
 	private void flagCell(Set<CellVisibleStatus> allowedStatusesSet, CellVisibleStatus newStatus) {
 		if (!allowedStatusesSet.contains(visibleStatus)) {
@@ -74,4 +64,18 @@ public abstract class Cell {
 		}
 		visibleStatus = newStatus;
 	}
+
+	public void affectNeighbourCells(Minefield minefield) {
+		Position position = mineCell.getPosition();
+		for (Position.Direction direction: Position.Direction.values()) {
+			Position neighbourPosition = position.getRelativePosition(direction);
+			if (neighbourPosition.isWithinBounds(config)) {
+				int x = neighbourPosition.getX();
+				int y = neighbourPosition.getY();
+				cellsGrid[x][y] = mineCell.affectNeighbourCell(cellsGrid[x][y]);
+			}
+		}
+	}
+
+
 }

@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import lombok.NoArgsConstructor;
 
 import com.minesweeper.domain.InteractionResult;
+import com.minesweeper.domain.minefield.Minefield;
 
 @NoArgsConstructor
 public class EmptyCell extends Cell {
@@ -14,8 +15,8 @@ public class EmptyCell extends Cell {
 	}
 
 	@Override
-	public InteractionResult explore() {
-		revealWhileExploring(this);
+	public InteractionResult explore(Minefield minefield) {
+		revealWhileExploring(this, minefield);
 		return InteractionResult.CELL_REVEALED;
 	}
 
@@ -25,24 +26,24 @@ public class EmptyCell extends Cell {
 	}
 
 	@Override
+	public Cell affectNeighbourCell(Cell neighbourCell) {
+		// Does not affect other cells
+		return neighbourCell;
+	}
+
+	@Override
 	protected boolean mustBeRevealedWhileExploring() {
 		return true;
 	}
 
 	@Override
-	protected Cell increaseAdjacentMineCount(Cell neighbourCell) {
-		// Does not affect adjacent mines count
-		return neighbourCell;
-	}
-
-	@Override
-	protected Cell autoIncreaseMineCount() {
+	protected Cell incrementMineCount() {
 		Cell newCell = new AdjacentToMineCell(this);
-		newCell.autoIncreaseMineCount();
+		newCell.incrementMineCount();
 		return newCell;
 	}
 
-	private void revealWhileExploring(Cell cell) {
+	private void revealWhileExploring(Cell cell, Minefield minefield) {
 		if (!cell.mustBeRevealedWhileExploring()) {
 			return;
 		}
